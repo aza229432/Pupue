@@ -6,6 +6,8 @@ int main() {
 
 	sf::RenderWindow window(sf::VideoMode({ 351u, 351u }), "Pupue", sf::Style::Titlebar | sf::Style::Close);
 
+	window.setFramerateLimit(60);
+
 	HWND hwnd = window.getNativeHandle();
 	SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
