@@ -34,13 +34,13 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="frame1_idle.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="frame2_playing.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Pupue.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\frame2_playing.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\frame1_idle.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -50,7 +50,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="sound.wav">
+    <Media Include="Assets\sound.wav">
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>

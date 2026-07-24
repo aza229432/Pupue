@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Pupue/Pupue.vcxproj" />
+  <Project Path="Pupue/Pupue.vcxproj" Id="23fe65e8-67bc-4cb1-861e-8a54443b6547" />
 </Solution>

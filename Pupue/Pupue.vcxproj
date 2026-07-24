@@ -154,15 +154,15 @@
     <ResourceCompile Include="Pupue.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="frame1_idle.png" />
-    <Image Include="frame2_playing.png" />
+    <Image Include="Assets\frame1_idle.png" />
+    <Image Include="Assets\frame2_playing.png" />
     <Image Include="Pupue.ico" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="sound.wav" />
+    <Media Include="Assets\sound.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
