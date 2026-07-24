@@ -31,10 +31,6 @@ LRESULT CALLBACK MyWindowSubclass(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 }
 
-void app() {
-
-}
-
 int main() {
 
 	/*if (SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS)) {
