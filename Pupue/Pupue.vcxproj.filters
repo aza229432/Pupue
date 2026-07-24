@@ -40,7 +40,7 @@
     <Image Include="frame2_playing.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\..\Downloads\Pupue.ico">
+    <Image Include="Pupue.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
