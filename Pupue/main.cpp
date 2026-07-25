@@ -49,6 +49,7 @@ unsigned int loadFramerateFromIni(const std::string& filename) {
 
 	const UINT MENU_TOPMOST_ID = 0x8880;
 	const UINT MENU_HOTKEY_ID = 0x8890;
+	const UINT MENU_EDIT_CONFIG_ID = 0x88A0;
 
 	std::vector<int> loadHotkeysFromIni(const std::string& filename) {
 		std::vector<int> keys;
@@ -115,6 +116,11 @@ unsigned int loadFramerateFromIni(const std::string& filename) {
 				return 0;
 			}
 
+			else if ((wParam & 0xFFF0) == MENU_EDIT_CONFIG_ID) {
+				ShellExecuteW(NULL, L"open", L"notepad.exe", L"config.ini", NULL, SW_SHOW);
+				return 0;
+			}
+
 		}
 		return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 	}
@@ -157,6 +163,8 @@ int main() {
 
 		AppendMenuW(hMenu, MF_STRING, MENU_HOTKEY_ID, L"Global Hotkey Enabled");
 		CheckMenuItem(hMenu, MENU_HOTKEY_ID, MF_BYCOMMAND | MF_CHECKED);
+
+		AppendMenuW(hMenu, MF_STRING, MENU_EDIT_CONFIG_ID, L"Open Config File");
 
 		SetWindowSubclass(hwnd, MyWindowSubclass, 1, 0);
 
