@@ -1,53 +1,53 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <iostream>
+#include <optional>
+
+
+#ifdef _WIN32
 #include <windows.h>
 #include <CommCtrl.h>
-#include <thread>
-
 #pragma comment(lib, "comctl32.lib")
 
-bool isTopmost = true;
+	bool isTopmost = true;
 
-const UINT MENU_TOPMOST_ID = 0x8880;
+	const UINT MENU_TOPMOST_ID = 0x8880;
 
-LRESULT CALLBACK MyWindowSubclass(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) {
-	if (uMsg == WM_SYSCOMMAND) {
-		if ((wParam & 0xFFF0) == MENU_TOPMOST_ID) {
-			isTopmost = !isTopmost;
+	LRESULT CALLBACK MyWindowSubclass(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) {
+		if (uMsg == WM_SYSCOMMAND) {
+			if ((wParam & 0xFFF0) == MENU_TOPMOST_ID) {
+				isTopmost = !isTopmost;
 			
-			SetWindowPos(
-				hWnd,
-				isTopmost ? HWND_TOPMOST : HWND_NOTOPMOST,
-				0, 0, 0, 0,
-				SWP_NOMOVE | SWP_NOSIZE
-			);
+				SetWindowPos(
+					hWnd,
+					isTopmost ? HWND_TOPMOST : HWND_NOTOPMOST,
+					0, 0, 0, 0,
+					SWP_NOMOVE | SWP_NOSIZE
+				);
 
-			HMENU hMenu = GetSystemMenu(hWnd, FALSE);
-			CheckMenuItem(hMenu, MENU_TOPMOST_ID, MF_BYCOMMAND | (isTopmost ? MF_CHECKED : MF_UNCHECKED));
+				HMENU hMenu = GetSystemMenu(hWnd, FALSE);
+				CheckMenuItem(hMenu, MENU_TOPMOST_ID, MF_BYCOMMAND | (isTopmost ? MF_CHECKED : MF_UNCHECKED));
 
-			return 0;
+				return 0;
+			}
 		}
+		return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 	}
-	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
-}
+#endif
 
 int main() {
 
-	/*if (SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS)) {
-		MessageBoxA(NULL, "Priority set to High.", "Success", MB_OK | MB_ICONINFORMATION);
-	}
-	else {
-		MessageBoxA(NULL, "Failed to change priority.", "Error", MB_OK | MB_ICONERROR);
-	}*/
 
 	sf::Texture textureIdle;
 	sf::Texture texturePlaying;
 	if (!textureIdle.loadFromFile("Assets/frame1_idle.png")) {
-		MessageBoxA(NULL, "Failed to load frame1_idle.png", "Error", MB_OK | MB_ICONERROR);
+		//MessageBoxA(NULL, "Failed to load frame1_idle.png", "Error", MB_OK | MB_ICONERROR);
+		std::cerr << "Failed to load frame1_idle.png\n";
 		return -1;
 	}
 	if (!texturePlaying.loadFromFile("Assets/frame2_playing.png")) {
-		MessageBoxA(NULL, "Failed to load frame2_playing.png", "Error", MB_OK | MB_ICONERROR);
+		//MessageBoxA(NULL, "Failed to load frame2_playing.png", "Error", MB_OK | MB_ICONERROR);
+		std::cerr << "Failed to load frame2_playing.png\n";
 		return -1;
 	}
 
@@ -57,18 +57,24 @@ int main() {
 
 	window.setFramerateLimit(60);
 
-	HWND hwnd = window.getNativeHandle();
-	SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+#ifdef _WIN32
 
-	HMENU hMenu = GetSystemMenu(hwnd, FALSE);
-	AppendMenuW(hMenu, MF_SEPARATOR, 0, NULL);
-	AppendMenuW(hMenu, MF_STRING, MENU_TOPMOST_ID, L"Always on Top");
-	CheckMenuItem(hMenu, MENU_TOPMOST_ID, MF_BYCOMMAND | MF_CHECKED);
+		HWND hwnd = window.getNativeHandle();
+		SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
-	SetWindowSubclass(hwnd, MyWindowSubclass, 1, 0);
+		HMENU hMenu = GetSystemMenu(hwnd, FALSE);
+		AppendMenuW(hMenu, MF_SEPARATOR, 0, NULL);
+		AppendMenuW(hMenu, MF_STRING, MENU_TOPMOST_ID, L"Always on Top");
+		CheckMenuItem(hMenu, MENU_TOPMOST_ID, MF_BYCOMMAND | MF_CHECKED);
+
+		SetWindowSubclass(hwnd, MyWindowSubclass, 1, 0);
+#else
+		std::cout << "Running on Linux. Window pinning not supported.\n";
+		std::cout << "Tested on WSL. I don't have a spare computer to natively test this on."
+#endif
 
 	sf::Image icon;
-	if (icon.loadFromFile("frame1_idle.png")) {
+	if (icon.loadFromFile("Assets/frame1_idle.png")) {
 		window.setIcon(icon);
 	}
 
@@ -77,7 +83,7 @@ int main() {
 
 	sf::SoundBuffer soundBuffer;
 	if (!soundBuffer.loadFromFile("Assets/sound.wav")) {
-		MessageBoxA(NULL, "Failed to load sound.wav", "Error", MB_OK | MB_ICONERROR);
+		std::cerr << "Failed to load sound.wav\n";
 		return -1;
 	}
 	sf::Sound sound(soundBuffer);
