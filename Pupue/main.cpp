@@ -144,7 +144,7 @@ int main() {
 
 	sf::Vector2u imageSize = textureIdle.getSize();
 
-	sf::RenderWindow window(sf::VideoMode(imageSize), "Pupue", sf::Style::Titlebar | sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(imageSize), "Pupue v1.4.2", sf::Style::Titlebar | sf::Style::Close);
 
 	unsigned int targetFPS = loadFramerateFromIni("config.ini");
 	window.setFramerateLimit(targetFPS);
