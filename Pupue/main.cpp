@@ -10,7 +10,7 @@
 std::atomic<bool> triggerAction(false);
 
 unsigned int loadFramerateFromIni(const std::string& filename) {
-	unsigned int framerate = 59;
+	unsigned int framerate = 60;
 	std::ifstream file(filename);
 	std::string line;
 	while (std::getline(file, line)) {
