@@ -174,10 +174,9 @@ int main() {
 		std::cout << "Tested on WSL. I don't have a spare computer to natively test this on.";
 #endif
 
-	sf::Image icon;
-	if (icon.loadFromFile("Assets/frame1_idle.png")) {
-		window.setIcon(icon);
-	}
+	sf::Image icon = textureIdle.copyToImage();
+	window.setIcon(icon);
+	
 
 	sf::Sprite buttonSprite(textureIdle);
 
@@ -188,8 +187,11 @@ int main() {
 		return -1;
 	}
 	sf::Sound sound(soundBuffer);
-	
 
+#ifdef _WIN32
+	SetProcessWorkingSetSize(GetCurrentProcess(), (SIZE_T)-1, (SIZE_T)-1);
+#endif
+	
 	while (window.isOpen()) {
 		
 		while (const std::optional<sf::Event> event = window.pollEvent()) {
